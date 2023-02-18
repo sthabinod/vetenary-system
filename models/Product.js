@@ -18,8 +18,8 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         image: {
-            type: DataTypes.BLOB,
-            allowNull: false,
+            type: DataTypes.BLOB("long"),
+            allowNull: true,
         },
 
         quantity: {

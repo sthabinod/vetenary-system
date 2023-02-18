@@ -14,26 +14,29 @@ app.use(cors());
 const customerRouter = require("./routes/Customer");
 app.use("/customer", customerRouter);
 
-const medicalStaffRouter = require("./routes/MedicalStaff");
-app.use("/medical-staff", medicalStaffRouter);
+const vaccinationRouter = require("./routes/Vaccination");
+app.use("/vaccination", vaccinationRouter);
 
-const categoryRouter = require("./routes/Categories");
-app.use("/category", categoryRouter);
+const petRouter = require("./routes/Pet");
+app.use("/pet", petRouter);
 
-const mStaffCatRouter = require("./routes/MedicalStaffCategory");
-app.use("/m-staff-cat", mStaffCatRouter);
+const petCatRouter = require("./routes/PetCategory");
+app.use("/pet-cat", petCatRouter);
 
 const productRouter = require("./routes/Product");
 app.use("/product", productRouter);
 
+const appointmentRouter = require("./routes/Appointment");
+app.use("/appointment",appointmentRouter);
+
 const notificationRouter = require("./routes/Notification");
 app.use("/notification", notificationRouter);
 
-const educationRouter = require("./routes/Education");
-app.use("/education", educationRouter);
+const doctorRouter = require("./routes/Doctor");
+app.use("/doctor", doctorRouter);
 
-const feedbackRouter = require("./routes/Feedback");
-app.use("/feedback", feedbackRouter);
+// const feedbackRouter = require("./routes/Pet");
+// app.use("/feedback", feedbackRouter);
 
 const companyRouter = require("./routes/Company");
 app.use("/company", companyRouter);

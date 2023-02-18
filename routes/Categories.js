@@ -1,12 +1,12 @@
 const express = require('express');
 const { sequelize } = require('../models');
 const router = express.Router()
-const { Categories } = require("../models");
+const { PetCategories } = require("../models");
+const { validateToken } = require("../middleware/AuthMiddleware");
 
 
-
-router.get("/", async(req, res) => {
-    showCategories = await Categories.findAll();
+router.route("/").get(validateToken,async(req,res)=>{
+    showCategories = await PetCategories.findAll();
     res.json(showCategories);
 });
 

@@ -1,10 +1,11 @@
 const express = require("express");
 const { sequelize } = require("../models");
 const router = express.Router();
-const { MedicalStaffCategory } = require("../models");
+const { PetCategories } = require("../models");
+const { validateToken } = require("../middleware/AuthMiddleware");
 
-router.get("/", async(req, res) => {
-    showCategories = await MedicalStaffCategory.findAll();
+router.route("/").get(validateToken,async(req,res)=>{
+    showCategories = await PetCategories.findAll();
     res.json(showCategories);
 });
 
@@ -14,7 +15,7 @@ router.route("/").post((req, res) => {
     // accessing data
     // body has data in json
     const categories = req.body;
-    MedicalStaffCategory.create(categories);
+    PetCategory.create(categories);
     res.json(categories);
 });
 

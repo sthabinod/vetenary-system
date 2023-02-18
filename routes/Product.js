@@ -4,8 +4,10 @@ const router = express.Router();
 const { Product } = require("../models");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
+const { validateToken } = require("../middleware/AuthMiddleware");
 
-router.get("/", async(req, res) => {
+
+router.route("/").get(validateToken,async(req,res)=>{
     showProduct = await Product.findAll();
     res.json(showProduct);
 });

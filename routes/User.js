@@ -14,6 +14,7 @@ router.get("/", async(req, res) => {
 
 router.route("/login_user").post(async(req, res) => {
     const { username, password } = req.body;
+    console.log(username);
     const user = await User.findOne({ where: { username: username } });
     if (!user) {
         res.json({ error: "User not found" });
