@@ -49,11 +49,14 @@ router.route("/").post(async(req, res) => {
     if (user.email !== "" && user.password !== "" && user.username !== "") {
         if (!checkUser) {
             const userObject = User.create(user);
+            const gettingId = User.findOne({where:{username:"binod"}})
+
             res.json({
+                user:user,
+                id:gettingId.id,
                 success: "User created successfully",
             });
         } else {
-            console.log("I m");
             res.json({ error: "User already found" });
         }
     } else {
