@@ -48,20 +48,24 @@ router.route("/").post(async(req, res) => {
 
     if (user.email !== "" && user.password !== "" && user.username !== "") {
         if (!checkUser) {
-            const userObject = User.create(user);
-            const gettingId = User.findOne({where:{username:"binod"}})
-
+            const userObject = await User.create(user);
+            console.log(userObject);
             res.json({
                 user:user,
-                id:gettingId.id,
-                success: "User created successfully",
+                id:userObject.id,
+                success: "User created successfully....",
             });
+            
         } else {
             res.json({ error: "User already found" });
         }
+
+        
     } else {
         res.json({ error: "Empty Fields" });
     }
+    
+    
 });
 
 // async and await waiting for the data to be inserting and doing other things

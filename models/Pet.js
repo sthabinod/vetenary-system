@@ -14,13 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         },
        
     });
-    Pet.associate = (models) => {
-        Pet.hasMany(models.Customer, {
-            onDelete: "cascade",
-        });
-        
-      
-    };
+
 
     return Pet;
 };

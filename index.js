@@ -55,8 +55,8 @@ const adminBro = new AdminBro({
     loginPath: "/admin/login",
     databases: [db],
     branding: {
-        companyName: "Medic",
-        softwareBrothers: false,
+        companyName: "Vetenary",
+        softwareBrothers: true,
     },
 });
 

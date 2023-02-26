@@ -22,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: "cascade",
         });
        
-        
         Customer.hasMany(models.Rating, {
             onDelete: "cascade",
         });
@@ -30,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
         Customer.hasMany(models.Order, {
             onDelete: "cascade",
         });
+        Customer.hasMany(models.Pet, {
+            onDelete: "cascade",
+        });
+        
     };
 
     return Customer;
