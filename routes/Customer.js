@@ -16,7 +16,7 @@ router
   });
 
 // async and await waiting for the data to be inserting and doing other things
-router.route("/").post(validateToken, async (req, res) => {
+router.route("/").post(async (req, res) => {
   // using sequelize to post data
   // accessing data
   // body has data in json
