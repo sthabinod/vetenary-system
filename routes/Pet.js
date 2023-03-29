@@ -8,7 +8,7 @@ const { validateToken } = require("../middleware/AuthMiddleware");
 router.route("/").get(async(req, res) => {
     pet = await Pet.findAll();
     res.json(pet);
-});
+}); 
 
 router.route("/").post((req, res) => {
     // using sequelize to post data

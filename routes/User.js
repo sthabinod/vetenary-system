@@ -68,12 +68,15 @@ router.route("/").post(async(req, res) => {
     
 });
 
+
+
+
 // async and await waiting for the data to be inserting and doing other things
 router.route("/update").post(validateToken, async(req, res) => {
     // using sequelize to post data
     // accessing data
     // body has data in json
-    const { username, password } = req.body;
+    const { password } = req.body;
     const updateUser = req.body;
     // const hash = user.password
     // User.create({
@@ -82,8 +85,14 @@ router.route("/update").post(validateToken, async(req, res) => {
     // })
     // res.json(hash);
     const userId = req.user.id;
-    const updated = User.update(updateUser, { where: { id: userId } });
-    res.json(userId);
+    const updated =await User.update(updateUser, { where: { id: userId } });
+    if (updated){
+        res.json({"data":updateUser,"success":"SUCCESS","message":"Updated successfully!"});
+
+    }   
+    else{
+        res.json({"Failed":"NOT UPDATED","message":"Could not successfully!"});
+    }
 });
 
 router.route("/auth").get(validateToken, (req, res) => {

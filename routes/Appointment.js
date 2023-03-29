@@ -14,10 +14,10 @@ router.route("/customer").get(validateToken,async(req,res)=>{
     if (!showAppiontment)
     {
         res.json({"error":"Not found"});
-    }
+    }   
     else if (showAppiontment)
     {
-        res.json(showAppiontment);
+        res.json({"data":{"appointment_date":showAppiontment.appointment_date},"success":"SUCCESS","message":"Data fetched successfully!"});
     }
 });
 
@@ -46,7 +46,7 @@ router.route("/").post(validateToken,async(req,res)=>{
     const customerObject = await Customer.findOne({ where: { UserId: userId } });
     const appointment_date = new Date();
     const appointment = req.body;
-    Appointment.create({"DoctorId":appointment.DoctorId,"VaccinationId":appointment.VaccinationId,"CustomerId":customerObject.id,"appointment_date":appointment_date});
+    await Appointment.create({"DoctorId":appointment.DoctorId,"VaccinationId":appointment.VaccinationId,"CustomerId":customerObject.id,"appointment_date":appointment_date});
     res.json({data:appointment,"CustomerId":customerObject.id,message:"Appointment added"});
 });
 
