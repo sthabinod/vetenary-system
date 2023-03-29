@@ -31,7 +31,7 @@ router.route("/login_user").post(async(req, res) => {
     const accessToken = sign({
             username: user.username,
             id: user.id,
-            isCompany: user.isCompany,
+            user_type: user.user_type,
             email: user.email,
             password: user.password,
         },
