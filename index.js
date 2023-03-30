@@ -27,7 +27,7 @@ const productRouter = require("./routes/Product");
 app.use("/product", productRouter);
 
 const appointmentRouter = require("./routes/Appointment");
-app.use("/appointment",appointmentRouter);
+app.use("/appointment", appointmentRouter);
 
 const notificationRouter = require("./routes/Notification");
 app.use("/notification", notificationRouter);
@@ -51,20 +51,20 @@ const AdminBroSequelize = require("@admin-bro/sequelize");
 AdminBro.registerAdapter(AdminBroSequelize);
 
 const adminBro = new AdminBro({
-    rootPath: "/admin",
-    loginPath: "/admin/login",
-    databases: [db],
-    branding: {
-        companyName: "Vetenary",
-        softwareBrothers: true,
-    },
+  rootPath: "/admin",
+  loginPath: "/admin/login",
+  databases: [db],
+  branding: {
+    companyName: "Vetenary",
+    softwareBrothers: true,
+  },
 });
 
 const router = AdminBroExpress.buildRouter(adminBro);
 
 app.use(adminBro.options.rootPath, router);
 db.sequelize.sync().then(() => {
-    app.listen(3001, () => {
-        console.log("RUNNING");
-    });
+  app.listen(3001, () => {
+    console.log("RUNNING");
+  });
 });
