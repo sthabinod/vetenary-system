@@ -35,6 +35,9 @@ app.use("/notification", notificationRouter);
 const doctorRouter = require("./routes/Doctor");
 app.use("/doctor", doctorRouter);
 
+const employeeRouter = require("./routes/Employee");
+app.use("/employee", employeeRouter);
+
 // const feedbackRouter = require("./routes/Pet");
 // app.use("/feedback", feedbackRouter);
 
