@@ -31,4 +31,39 @@ router.route("/").post(validateToken, async (req, res) => {
   res.json(employee);
 });
 
+
+
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+  await Employee.findByPk(id)
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((err) => {
+      res.json({ error: err });
+    });
+});
+
+router.route("/update").put(validateToken, async (req, res) => {
+  const employeeDetail = req.body;
+  await Employee.update(employeeDetail, { where: { id: petDetail.id } })
+    .then(() => {
+      res.json({
+        status: "SUCCESS",
+        message: "Employee updated successfully",
+      });
+    })
+    .catch((err) => {
+      res.json({ error: err });
+    });
+});
+
+
+
+router.route("/delete/:id").delete(validateToken, (req, res) => {
+  let id = req.params.id;
+  Employee.destroy({ where: { id: id } }).then(() => {
+    res.json({ status: "SUCCESS", message: "Employee deleted successfully" });
+  });
+});
 module.exports = router;

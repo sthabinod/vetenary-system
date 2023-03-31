@@ -23,4 +23,38 @@ router
 
     });
 
+
+router.get("/:id", async (req, res) => {
+    const id = req.params.id;
+    await PetCategories.findByPk(id)
+      .then((response) => {
+        res.json(response);
+      })
+      .catch((err) => {
+        res.json({ error: err });
+      });
+  });
+  
+  router.route("/update").put(validateToken, async (req, res) => {
+    const petCat = req.body;
+    await PetCategories.update(petCat, { where: { id: petCat.id } })
+      .then(() => {
+        res.json({
+          status: "SUCCESS",
+          message: "Pet Categories updated successfully",
+        });
+      })
+      .catch((err) => {
+        res.json({ error: err });
+      });
+  });
+  
+  
+  
+  router.route("/delete/:id").delete(validateToken, (req, res) => {
+    let id = req.params.id;
+    PetCategories.destroy({ where: { id: id } }).then(() => {
+      res.json({ status: "SUCCESS", message: "Pet Categories deleted successfully" });
+    });
+  });
 module.exports = router
