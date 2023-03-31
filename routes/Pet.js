@@ -34,6 +34,33 @@ router.route("/").post((req, res) => {
   res.json(pet);
 });
 
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+  await Vaccination.findByPk(id)
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((err) => {
+      res.json({ error: err });
+    });
+});
+
+router.route("/update").put(validateToken, async (req, res) => {
+  const petDetail = req.body;
+  await Pet.update(petDetail, { where: { id: petDetail.id } })
+    .then(() => {
+      res.json({
+        status: "SUCCESS",
+        message: "Pet updated successfully",
+      });
+    })
+    .catch((err) => {
+      res.json({ error: err });
+    });
+});
+
+
+
 router.route("/delete/:id").delete(validateToken, (req, res) => {
   let id = req.params.id;
   Pet.destroy({ where: { id: id } }).then(() => {

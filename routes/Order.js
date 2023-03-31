@@ -49,4 +49,40 @@ router.route("/add_order").post(validateToken, async (req, res) => {
   });
 });
 
+
+
+
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+  await Order.findByPk(id)
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((err) => {
+      res.json({ error: err });
+    });
+});
+
+router.route("/update").put(validateToken, async (req, res) => {
+  const orderDetail = req.body;
+  await Order.update(petDetail, { where: { id: petDetail.id } })
+    .then(() => {
+      res.json({
+        status: "SUCCESS",
+        message: "Order updated successfully",
+      });
+    })
+    .catch((err) => {
+      res.json({ error: err });
+    });
+});
+
+
+
+router.route("/delete/:id").delete(validateToken, (req, res) => {
+  let id = req.params.id;
+  Order.destroy({ where: { id: id } }).then(() => {
+    res.json({ status: "SUCCESS", message: "Order deleted successfully" });
+  });
+});
 module.exports = router;

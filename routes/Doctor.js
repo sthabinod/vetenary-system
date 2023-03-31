@@ -34,3 +34,37 @@ router.route("/get-doctor-by-user-id").get(validateToken, async (req, res) => {
 });
 
 module.exports = router;
+
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+  await Doctor.findByPk(id)
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((err) => {
+      res.json({ error: err });
+    });
+});
+
+router.route("/update").put(validateToken, async (req, res) => {
+  const doctorDetail = req.body;
+  await Doctor.update(doctorDetail, { where: { id: doctorDetail.id } })
+    .then(() => {
+      res.json({
+        status: "SUCCESS",
+        message: "Doctor updated successfully",
+      });
+    })
+    .catch((err) => {
+      res.json({ error: err });
+    });
+});
+
+router.route("/delete/:id").delete(validateToken, (req, res) => {
+  let id = req.params.id;
+  Pet.destroy({ where: { id: id } }).then(() => {
+    res.json({ status: "SUCCESS", message: "Doctor deleted successfully" });
+  });
+});
+
+module.exports = router;
