@@ -9,10 +9,15 @@ router
   .get(validateToken, async (req, res) => {
     const userId = req.user.id;
     const userObject = await User.findOne({ where: { id: userId } });
-    const employeeObject = await Employee.findOne({
+    await Employee.findOne({
       where: { UserId: userObject.id },
-    });
-    res.json(employeeObject);
+    })
+      .then((response) => {
+        res.json(response);
+      })
+      .catch((err) => {
+        res.json({ error: err });
+      });
   });
 
 // async and await waiting for the data to be inserting and doing other things
