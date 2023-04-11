@@ -33,8 +33,6 @@ router.route("/get-doctor-by-user-id").get(validateToken, async (req, res) => {
     });
 });
 
-module.exports = router;
-
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
   await Doctor.findByPk(id)
@@ -62,7 +60,7 @@ router.route("/update").put(validateToken, async (req, res) => {
 
 router.route("/delete/:id").delete(validateToken, (req, res) => {
   let id = req.params.id;
-  Pet.destroy({ where: { id: id } }).then(() => {
+  Doctor.destroy({ where: { id: id } }).then(() => {
     res.json({ status: "SUCCESS", message: "Doctor deleted successfully" });
   });
 });

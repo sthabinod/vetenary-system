@@ -4,6 +4,11 @@ const router = express.Router();
 const { Employee, User } = require("../models");
 const { validateToken } = require("../middleware/AuthMiddleware");
 
+router.get("/", async (req, res) => {
+  let showUser = await Employee.findAll();
+  res.json(showUser);
+});
+
 router
   .route("/get-employee-by-user-id")
   .get(validateToken, async (req, res) => {
@@ -26,17 +31,18 @@ router.route("/").post(validateToken, async (req, res) => {
   // accessing data
   // body has data in json
   const employee = req.body;
-  await Employee.create({
-    fullName: employee.fullName,
-    address: employee.address,
-    phone_number: employee.phone_number,
-    qualification: employee.qualification,
-    UserId: employee.UserId,
-  });
-  res.json(employee);
+  console.log(employee);
+  await Employee.create(employee)
+    .then(() => {
+      res.json({
+        status: "SUCCESS",
+        message: "Employee updated successfully",
+      });
+    })
+    .catch((err) => {
+      res.json({ error: err });
+    });
 });
-
-
 
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
@@ -51,7 +57,7 @@ router.get("/:id", async (req, res) => {
 
 router.route("/update").put(validateToken, async (req, res) => {
   const employeeDetail = req.body;
-  await Employee.update(employeeDetail, { where: { id: petDetail.id } })
+  await Employee.update(employeeDetail, { where: { id: employeeDetail.id } })
     .then(() => {
       res.json({
         status: "SUCCESS",
@@ -62,8 +68,6 @@ router.route("/update").put(validateToken, async (req, res) => {
       res.json({ error: err });
     });
 });
-
-
 
 router.route("/delete/:id").delete(validateToken, (req, res) => {
   let id = req.params.id;
