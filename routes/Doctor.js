@@ -49,7 +49,7 @@ router.get("/:id", async (req, res) => {
   
   router.route("/delete/:id").delete(validateToken, (req, res) => {
     let id = req.params.id;
-    Pet.destroy({ where: { id: id } }).then(() => {
+    Doctor.destroy({ where: { id: id } }).then(() => {
       res.json({ status: "SUCCESS", message: "Doctor deleted successfully" });
     });
   });

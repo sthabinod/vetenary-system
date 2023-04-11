@@ -36,7 +36,7 @@ router.route("/").post((req, res) => {
 
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
-  await Vaccination.findByPk(id)
+  await Pet.findByPk(id)
     .then((response) => {
       res.json(response);
     })

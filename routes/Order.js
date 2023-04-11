@@ -2,6 +2,25 @@ const express = require("express");
 const { sequelize } = require("../models");
 const router = express.Router();
 
+const nodemailer = require("nodemailer");
+let transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "sikaai30000@gmail.com",
+    pass: "yidmeybwkhdwhowh",
+  },
+});
+
+// testing success
+transporter.verify((error, success) => {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log("Ready for messages");
+    console.log(success);
+  }
+});
+
 const { validateToken } = require("../middleware/AuthMiddleware");
 const { Product, Customer, Order } = require("../models");
 
@@ -65,8 +84,27 @@ router.get("/:id", async (req, res) => {
 
 router.route("/update").put(validateToken, async (req, res) => {
   const orderDetail = req.body;
-  await Order.update(petDetail, { where: { id: petDetail.id } })
-    .then(() => {
+  await Order.update(orderDetail, { where: { id: orderDetail.id } })
+
+    .then(async() => {
+      await transporter
+        .sendMail({
+          from: process.env
+            .AUTH_EMAIL,
+          to: result[i].email,
+          subject: `New Event - ${title}`,
+          html: `<p>${description}</p><p>Regards,<br /><b>Career Technical Academy</b><br />Dharan-6, Panbari, Sunsari</p>`,
+        })
+        .then(() => {
+          console.log(
+            "Email sent successfully"
+          );
+        })
+        .catch((err) => {
+          console.log(
+            "Please enter valid email address."
+          );
+        });
       res.json({
         status: "SUCCESS",
         message: "Order updated successfully",

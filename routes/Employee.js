@@ -46,7 +46,7 @@ router.get("/:id", async (req, res) => {
 
 router.route("/update").put(validateToken, async (req, res) => {
   const employeeDetail = req.body;
-  await Employee.update(employeeDetail, { where: { id: petDetail.id } })
+  await Employee.update(employeeDetail, { where: { id: employeeDetail.id } })
     .then(() => {
       res.json({
         status: "SUCCESS",

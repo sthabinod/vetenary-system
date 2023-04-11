@@ -1,4 +1,6 @@
 // for using in another files
+const { Employee } = require("../models");
+
 
 module.exports = (sequelize, DataTypes) => {
     // // Table name as Blog in double quote and Blog as variable in front
@@ -18,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         image: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT("long"),
             allowNull: true,
         },
 
@@ -34,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
         });
     };
    
+
 
     return Product;
 };
