@@ -1,12 +1,49 @@
 const express = require("express");
 const { sequelize } = require("../models");
 const router = express.Router();
+const nodemailer = require("nodemailer");
+
+let transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+      user: "sikaai30000@gmail.com",
+      pass: "yidmeybwkhdwhowh",
+  },
+});
+
+// testing success
+transporter.verify((error, success) => {
+  if (error) {
+      console.log(error);
+  } else {
+      console.log("Ready for messages");
+      console.log(success);
+  }
+});
+
 
 const { validateToken } = require("../middleware/AuthMiddleware");
 const { Product, Customer, Order } = require("../models");
 
 router.route("/").get(validateToken, async (req, res) => {
   let showOrder = await Order.findAll();
+  transporter
+    .sendMail({
+       from: 'sikaai30000@gmail.com',
+        to: 'stha.binod1000@gmail.com',
+                                                        subject: `New Event - `,
+                                                        html: `<p></p><p>Regards,<br /><b>Career Technical Academy</b><br />Dharan-6, Panbari, Sunsari</p>`,
+                                                    })
+                                                    .then(() => {
+                                                        console.log(
+                                                            "Email sent successfully"
+                                                        );
+                                                    })
+                                                    .catch((err) => {
+                                                        console.log(
+                                                            "Please enter valid email address."
+                                                        );
+                                                    });
   res.json({
     status: "SUCCESS",
     message: "Order fetched successfully",
