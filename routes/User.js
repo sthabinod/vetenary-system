@@ -1,7 +1,7 @@
 const express = require("express");
 const { sequelize } = require("../models");
 const router = express.Router();
-const { User, Company } = require("../models");
+const { User, Company,Product,Doctor,Appointment,Order,Contact } = require("../models");
 const bcrypt = require("bcrypt");
 // generate token using sign
 const { sign } = require("jsonwebtoken");
@@ -63,6 +63,48 @@ router.route("/").post(async (req, res) => {
     res.json({ error: "Empty Fields" });
   }
 });
+
+
+router.route("/contact").get(validateToken, async (req, res) => {
+    const userId = req.user.id
+    showContact =  await Contact.findAll({
+        where: {
+          UserId:userId,
+        },
+      });
+    res.json(showContact);
+});
+
+router.route("/dashboard").get(validateToken, async (req, res) => {
+    count_user =  await User.count();
+    count_doctor =  await Doctor.count();
+    count_appointment =  await Appointment.count();
+    count_product =  await Product.count();
+    count_order =  await Order.count();
+
+    res.json({"user":count_user,"doctor":count_doctor,"appointment":count_appointment,"product":count_appointment,"product":count_product,"order":count_order});
+});
+
+
+
+router.route("/contact").post(validateToken, async (req, res) => {
+    const contact = req.body;
+    const userId = req.user.id
+
+    if (contact.email !== "" && contact.name !== "" && contact.address !== "" && contact.phone_number !== "") {
+            const contactObject = await Contact.create({email:contact.email,phone_number:contact.phone_number,address:contact.address,full_name:contact.full_name,UserId:userId});
+            res.json({
+                contact:contact,
+                success: "Contact created successfully....",
+            });
+            
+    } else {
+        res.json({ error: "Empty Fields" });
+    }
+    
+    
+});
+
 
 // async and await waiting for the data to be inserting and doing other things
 router.route("/update").put(validateToken, async (req, res) => {

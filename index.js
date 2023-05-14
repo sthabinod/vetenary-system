@@ -49,6 +49,15 @@ const userRouter = require("./routes/User");
 app.use("/users", userRouter);
 
 
+// const paypal = require('paypal-rest-sdk');
+// paypal.configure({
+//   'mode': 'sandbox', //sandbox or live
+//   'client_id': '####yourclientid######',
+//   'client_secret': '####yourclientsecret#####'
+// });
+// app.get('/payment', (req, res) => res.sendFile(__dirname + "/index.html"));
+
+
 db.sequelize.sync().then(() => {
   app.listen(3001, () => {
     console.log("RUNNING");
