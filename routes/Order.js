@@ -3,24 +3,23 @@ const { sequelize } = require("../models");
 const router = express.Router();
 const nodemailer = require("nodemailer");
 
-  let transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: "sikaai30000@gmail.com",
-        pass: "yidmeybwkhdwhowh",
-    },
-  });
+let transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "sikaai30000@gmail.com",
+    pass: "yidmeybwkhdwhowh",
+  },
+});
 
-  // testing success
-  transporter.verify((error, success) => {
-    if (error) {
-        console.log(error);
-    } else {
-        console.log("Ready for messages");
-        console.log(success);
-    }
-  });
-
+// testing success
+transporter.verify((error, success) => {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log("Ready for messages");
+    console.log(success);
+  }
+});
 
 const { validateToken } = require("../middleware/AuthMiddleware");
 const { Product, Customer, Order } = require("../models");
@@ -29,21 +28,17 @@ router.route("/").get(validateToken, async (req, res) => {
   let showOrder = await Order.findAll();
   transporter
     .sendMail({
-       from: 'sikaai30000@gmail.com',
-        to: 'stha.binod1000@gmail.com',
-                                                        subject: `New Event - `,
-                                                        html: `<p></p><p>Regards,<br /><b>Career Technical Academy</b><br />Dharan-6, Panbari, Sunsari</p>`,
-                                                    })
-                                                    .then(() => {
-                                                        console.log(
-                                                            "Email sent successfully"
-                                                        );
-                                                    })
-                                                    .catch((err) => {
-                                                        console.log(
-                                                            "Please enter valid email address."
-                                                        );
-                                                    });
+      from: "sikaai30000@gmail.com",
+      to: "stha.binod1000@gmail.com",
+      subject: `New Event - `,
+      html: `<p></p><p>Regards,<br /><b>Career Technical Academy</b><br />Dharan-6, Panbari, Sunsari</p>`,
+    })
+    .then(() => {
+      console.log("Email sent successfully");
+    })
+    .catch((err) => {
+      console.log("Please enter valid email address.");
+    });
   res.json({
     status: "SUCCESS",
     message: "Order fetched successfully",
@@ -86,9 +81,6 @@ router.route("/add_order").post(validateToken, async (req, res) => {
   });
 });
 
-
-
-
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
   await Order.findByPk(id)
@@ -114,23 +106,12 @@ router.route("/update").put(validateToken, async (req, res) => {
     });
 });
 
-
-
 router.route("/delete/:id").delete(validateToken, (req, res) => {
   let id = req.params.id;
   Order.destroy({ where: { id: id } }).then(() => {
     res.json({ status: "SUCCESS", message: "Order deleted successfully" });
   });
 });
-
-
-
-
-
-
-
-
-
 
 // app.post('/pay', (req, res) => {
 //   const create_payment_json = {
@@ -159,7 +140,6 @@ router.route("/delete/:id").delete(validateToken, (req, res) => {
 //         "description": "Hat for the best team ever"
 //     }]
 // };
-
 
 // app.get('/success', (req, res) => {
 //   const payerId = req.query.PayerID;
@@ -196,14 +176,8 @@ router.route("/delete/:id").delete(validateToken, (req, res) => {
 //           }
 //       }
 //     });
-    
+
 //     });
 // app.get('/cancel', (req, res) => res.send('Cancelled'));
-
-
-
-
-
-
 
 module.exports = router;
