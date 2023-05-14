@@ -1,7 +1,7 @@
 const express = require("express");
 const { sequelize } = require("../models");
 const router = express.Router();
-const { User, Company,Product,Doctor,Appointment,Order,Contact } = require("../models");
+const { User, Company,Product,Doctor,Appointment,Order,Contact,Customer } = require("../models");
 const bcrypt = require("bcrypt");
 // generate token using sign
 const { sign } = require("jsonwebtoken");
@@ -85,6 +85,16 @@ router.route("/dashboard").get(validateToken, async (req, res) => {
     res.json({"user":count_user,"doctor":count_doctor,"appointment":count_appointment,"product":count_appointment,"product":count_product,"order":count_order});
 });
 
+
+router.route("/user-dashboard").get(validateToken, async (req, res) => {
+  user = req.user.id
+  customer =  await Customer.findOne({ where: { UserId: user } });
+  my_appointment =  await Appointment.count({where:{CustomerId:customer.id}});
+  count_product =  await Product.count();
+  my_order =  await Order.count({where:{CustomerId:customer.id}});
+
+  res.json({"my_appointment":my_appointment,"product":count_product,"my_order":my_order});
+});
 
 
 router.route("/contact").post(validateToken, async (req, res) => {
