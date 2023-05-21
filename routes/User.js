@@ -76,9 +76,14 @@ router.route("/").post(async (req, res) => {
   }
 });
 
-router.route("/contact").get(validateToken, async (req, res) => {
-  showContact = await Contact.findAll();
-  res.json(showContact);
+router.route("/contact").get(async (req, res) => {
+  await Contact.findAll()
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((err) => {
+      res.json({ error: err });
+    });
 });
 
 router.route("/dashboard").get(validateToken, async (req, res) => {
