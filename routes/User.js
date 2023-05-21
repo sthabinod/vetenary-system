@@ -77,12 +77,7 @@ router.route("/").post(async (req, res) => {
 });
 
 router.route("/contact").get(validateToken, async (req, res) => {
-  const userId = req.user.id;
-  showContact = await Contact.findAll({
-    where: {
-      UserId: userId,
-    },
-  });
+  showContact = await Contact.findAll();
   res.json(showContact);
 });
 
@@ -137,27 +132,29 @@ router.route("/doctor-dashboard").get(validateToken, async (req, res) => {
   });
 });
 
-router.route("/contact").post(validateToken, async (req, res) => {
+router.route("/contact").post(async (req, res) => {
   const contact = req.body;
-  const userId = req.user.id;
-
   if (
     contact.email !== "" &&
     contact.name !== "" &&
-    contact.address !== "" &&
-    contact.phone_number !== ""
+    contact.subject !== "" &&
+    contact.message !== ""
   ) {
-    const contactObject = await Contact.create({
+    Contact.create({
       email: contact.email,
-      phone_number: contact.phone_number,
-      address: contact.address,
+      message: contact.message,
+      subject: contact.subject,
       full_name: contact.full_name,
-      UserId: userId,
-    });
-    res.json({
-      contact: contact,
-      success: "Contact created successfully....",
-    });
+    })
+      .then(
+        res.json({
+          contact: contact,
+          success: "Contact created successfully....",
+        })
+      )
+      .catch((err) => {
+        res.json({ error: err });
+      });
   } else {
     res.json({ error: "Empty Fields" });
   }
