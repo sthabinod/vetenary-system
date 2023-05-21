@@ -11,6 +11,8 @@ const {
   Contact,
   Customer,
   Pet,
+  PetCategories,
+  Vaccination,
 } = require("../models");
 const bcrypt = require("bcrypt");
 // generate token using sign
@@ -85,11 +87,11 @@ router.route("/contact").get(validateToken, async (req, res) => {
 });
 
 router.route("/dashboard").get(validateToken, async (req, res) => {
-  count_user = await User.count();
-  count_doctor = await Doctor.count();
-  count_appointment = await Appointment.count();
-  count_product = await Product.count();
-  count_order = await Order.count();
+  let count_user = await User.count();
+  let count_doctor = await Doctor.count();
+  let count_appointment = await Appointment.count();
+  let count_product = await Product.count();
+  let count_order = await Order.count();
 
   res.json({
     user: count_user,
@@ -102,15 +104,14 @@ router.route("/dashboard").get(validateToken, async (req, res) => {
 });
 
 router.route("/user-dashboard").get(validateToken, async (req, res) => {
-  user = req.user.id;
-  customer = await Customer.findOne({ where: { UserId: user } });
-  my_appointment = await Appointment.count({
+  let user = req.user.id;
+  let customer = await Customer.findOne({ where: { UserId: user } });
+  let my_appointment = await Appointment.count({
     where: { CustomerId: customer.id },
   });
-  count_product = await Product.count();
-  my_order = await Order.count({ where: { CustomerId: customer.id } });
-
-  my_pet = await Pet.count({
+  let count_product = await Product.count();
+  let my_order = await Order.count({ where: { CustomerId: customer.id } });
+  let my_pet = await Pet.count({
     where: { CustomerId: customer.id },
   });
   res.json({
@@ -118,6 +119,21 @@ router.route("/user-dashboard").get(validateToken, async (req, res) => {
     product: count_product,
     my_order: my_order,
     my_pet: my_pet,
+  });
+});
+
+router.route("/doctor-dashboard").get(validateToken, async (req, res) => {
+  let user = req.user.id;
+  let doctor = await Doctor.findOne({ where: { UserId: user } });
+  let my_appointment = await Appointment.count({
+    where: { DoctorId: doctor.id },
+  });
+  let vaccination = await Vaccination.count();
+  let category = await PetCategories.count();
+  res.json({
+    my_appointment: my_appointment,
+    vaccination: vaccination,
+    category: category,
   });
 });
 
