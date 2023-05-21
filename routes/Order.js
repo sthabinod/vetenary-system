@@ -56,6 +56,7 @@ router.route("/add_order").post(validateToken, async (req, res) => {
         quantity: order.quantity,
         ProductId: order.ProductId,
         CustomerId: respo.id,
+        transactionId: order.transactionId,
       })
         .then(() => {
           User.findByPk(userId)
