@@ -137,6 +137,17 @@ router.route("/doctor-dashboard").get(validateToken, async (req, res) => {
   });
 });
 
+router.route("/employee-dashboard").get(validateToken, async (req, res) => {
+  let count_order = await Order.count();
+  let category = await PetCategories.count();
+  let count_product = await Product.count();
+  res.json({
+    order: count_order,
+    product: count_product,
+    category: category,
+  });
+});
+
 router.route("/contact").post(async (req, res) => {
   const contact = req.body;
   if (
